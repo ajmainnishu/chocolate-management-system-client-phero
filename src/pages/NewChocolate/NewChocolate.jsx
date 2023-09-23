@@ -24,10 +24,11 @@ const NewChocolate = () => {
             .then(data => {
                 if (data.insertedId) {
                     Swal.fire(
-                        'Deleted!',
+                        'Success',
                         'Data Inserted Successfully',
                         'success'
                     )
+                    form.reset();
                 }
 
             })
