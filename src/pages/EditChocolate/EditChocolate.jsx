@@ -1,10 +1,13 @@
+import { useLoaderData } from "react-router-dom";
 import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2';
 
-const NewChocolate = () => {
-    const handleNewChocolate = event => {
+const EditChocolate = () => {
+    const chocolate = useLoaderData();
+    const { _id, name, country, photo, category, available } = chocolate;
+    const handleEditChocolate = event => {
         event.preventDefault();
         const form = event.target;
         const name = form.name.value;
@@ -13,8 +16,8 @@ const NewChocolate = () => {
         const category = form.category.value;
         const available = form.available.value;
         const info = { name, country, category, photo, available };
-        fetch('http://localhost:5000/chocolates', {
-            method: 'POST',
+        fetch(`http://localhost:5000/chocolates/${_id}`, {
+            method: 'PUT',
             headers: {
                 'Content-type': 'application/json'
             },
@@ -22,13 +25,12 @@ const NewChocolate = () => {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.insertedId) {
+                if (data.modifiedCount > 0) {
                     Swal.fire(
-                        'Inserted',
-                        'Data Inserted Successfully',
+                        'Updated',
+                        'Data Updated Successfully',
                         'success'
                     )
-                    form.reset();
                 }
 
             })
@@ -39,16 +41,17 @@ const NewChocolate = () => {
             <hr />
             <Box marginTop={4} marginBottom={8} paddingX={14} paddingY={6} bgcolor={"rgba(20, 20, 20, 0.05)"} borderRadius={2}>
                 <Typography variant="h6" textAlign={"center"} fontWeight={600}>
-                    New Chocolate
+                    Edit Chocolate
                 </Typography>
                 <Typography variant="subtitle1" textAlign={"center"} marginBottom={5}>
-                    Use the below form to create a new product
+                    Use the below form to Edit a new product
                 </Typography>
-                <form onSubmit={handleNewChocolate}>
+                <form onSubmit={handleEditChocolate}>
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
                             label="Name"
+                            defaultValue={name}
                             type="text"
                             name="name"
                             fullWidth
@@ -60,6 +63,7 @@ const NewChocolate = () => {
                             label="Country"
                             type="text"
                             name="country"
+                            defaultValue={country}
                             fullWidth
                         />
                     </Box>
@@ -70,6 +74,7 @@ const NewChocolate = () => {
                             label="Photo URL"
                             type="text"
                             name="photo"
+                            defaultValue={photo}
                             fullWidth
                         />
                     </Box>
@@ -80,6 +85,7 @@ const NewChocolate = () => {
                                 labelId=""
                                 id=""
                                 name="category"
+                                defaultValue={category}
                                 label="Category"
                             >
                                 <MenuItem value='Premium'>Premium</MenuItem>
@@ -94,7 +100,7 @@ const NewChocolate = () => {
                             <FormLabel id="">Available</FormLabel>
                             <RadioGroup
                                 row aria-labelledby=""
-                                name="available">
+                                name="available" defaultValue={available}>
                                 <FormControlLabel value={'Yes'} control={<Radio />} label="Yes" />
                                 <FormControlLabel value={'No'} control={<Radio />} label="No" />
                             </RadioGroup>
@@ -102,7 +108,7 @@ const NewChocolate = () => {
                     </Box>
 
                     <Box bgcolor={"#91572B"} borderRadius={2} color={"white"}>
-                        <Button type="submit" variant="" sx={{ paddingY: '17px' }} fullWidth>Save</Button>
+                        <Button type="submit" variant="" sx={{ paddingY: '17px' }} fullWidth>Update</Button>
                     </Box>
 
                 </form>
@@ -111,4 +117,4 @@ const NewChocolate = () => {
     );
 };
 
-export default NewChocolate;
+export default EditChocolate;

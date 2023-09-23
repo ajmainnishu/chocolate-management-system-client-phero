@@ -84,7 +84,7 @@ const Home = () => {
                                     <StyledTableCell align="center">{chocolate.category}</StyledTableCell>
                                     <StyledTableCell align="center">{chocolate.available}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Link><Button variant='outlined' sx={{ marginRight: '10px' }}><EditOutlinedIcon /></Button></Link>
+                                        <Link to={`/edit-chocolate/${chocolate._id}`}><Button variant='outlined' sx={{ marginRight: '10px' }}><EditOutlinedIcon /></Button></Link>
                                         <Button onClick={() => handleDelete(chocolate._id)} variant='outlined'>X</Button>
                                     </StyledTableCell>
                                 </StyledTableRow>

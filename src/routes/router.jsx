@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import NewChocolate from "../pages/NewChocolate/NewChocolate";
 import Home from "../pages/Home/Home";
+import EditChocolate from "../pages/EditChocolate/EditChocolate";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
             {
                 path: 'new-chocolate',
                 element: <NewChocolate></NewChocolate>
+            },
+            {
+                path: 'edit-chocolate/:id',
+                element: <EditChocolate></EditChocolate>,
+                loader: ({params}) => fetch(`http://localhost:5000/chocolates/${params.id}`)
             }
         ]
     }
