@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const NewChocolate = () => {
     const handleNewChocolate = event => {
@@ -24,7 +24,7 @@ const NewChocolate = () => {
             .then(data => {
                 if (data.insertedId) {
                     Swal.fire(
-                        'Success',
+                        'Inserted',
                         'Data Inserted Successfully',
                         'success'
                     )

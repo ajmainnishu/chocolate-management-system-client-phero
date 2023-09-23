@@ -10,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import Swal from 'sweetalert2';
+import { useState } from 'react';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -36,7 +38,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Home = () => {
-    const chocolates = useLoaderData();
+    const loadingChocolates = useLoaderData();
+    const [chocolates, setChocolates] = useState(loadingChocolates);
+    const handleDelete = _id => {
+        fetch(`http://localhost:5000/chocolates/${_id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    Swal.fire(
+                        'Deleted',
+                        'Data Deleted Successfully',
+                        'success'
+                    )
+                    const remaining = chocolates.filter(choco => choco._id !== _id);
+                    setChocolates(remaining);
+                }
+            })
+    }
     return (
         <Container>
             <Link to={`/new-chocolate`}><Button variant="outlined"> + New Chocolate</Button></Link>
@@ -64,8 +84,8 @@ const Home = () => {
                                     <StyledTableCell align="center">{chocolate.category}</StyledTableCell>
                                     <StyledTableCell align="center">{chocolate.available}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Link><Button variant='outlined' sx={{marginRight: '10px'}}><EditOutlinedIcon /></Button></Link>
-                                        <Button variant='outlined'>X</Button>
+                                        <Link><Button variant='outlined' sx={{ marginRight: '10px' }}><EditOutlinedIcon /></Button></Link>
+                                        <Button onClick={() => handleDelete(chocolate._id)} variant='outlined'>X</Button>
                                     </StyledTableCell>
                                 </StyledTableRow>
                             ))}
