@@ -2,8 +2,12 @@ import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, Input
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2';
+import useTitle from "../../hooks/useTitle";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const NewChocolate = () => {
+    // website title dynamic
+    useTitle('Add')
     const handleNewChocolate = event => {
         event.preventDefault();
         const form = event.target;
@@ -13,6 +17,7 @@ const NewChocolate = () => {
         const category = form.category.value;
         const available = form.available.value;
         const info = { name, country, category, photo, available };
+        // add chotolate data in mongodb server
         fetch('http://localhost:5000/chocolates', {
             method: 'POST',
             headers: {
@@ -23,6 +28,7 @@ const NewChocolate = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.insertedId) {
+                    // modal
                     Swal.fire(
                         'Inserted',
                         'Data Inserted Successfully',
@@ -35,7 +41,7 @@ const NewChocolate = () => {
     }
     return (
         <Container>
-            <Link to={`/`}><Button sx={{ marginBottom: '32px' }} variant="outlined">All Chocolates</Button></Link>
+            <Link to={`/`}><Button sx={{ marginBottom: '32px' }} variant="outlined"><ArrowBackIcon /> &nbsp; All Chocolates</Button></Link>
             <hr />
             <Box marginTop={4} marginBottom={8} paddingX={14} paddingY={6} bgcolor={"rgba(20, 20, 20, 0.05)"} borderRadius={2}>
                 <Typography variant="h6" textAlign={"center"} fontWeight={600}>
@@ -45,6 +51,7 @@ const NewChocolate = () => {
                     Use the below form to create a new product
                 </Typography>
                 <form onSubmit={handleNewChocolate}>
+                    {/* name field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
@@ -54,6 +61,7 @@ const NewChocolate = () => {
                             fullWidth
                         />
                     </Box>
+                    {/* country field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
@@ -63,7 +71,7 @@ const NewChocolate = () => {
                             fullWidth
                         />
                     </Box>
-
+                    {/* photo url field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
@@ -73,6 +81,7 @@ const NewChocolate = () => {
                             fullWidth
                         />
                     </Box>
+                    {/* category field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <FormControl fullWidth>
                             <InputLabel id="">Category</InputLabel>
@@ -88,7 +97,7 @@ const NewChocolate = () => {
                             </Select>
                         </FormControl>
                     </Box>
-
+                    {/* available field */}
                     <Box marginBottom={4}>
                         <FormControl>
                             <FormLabel id="">Available</FormLabel>
@@ -100,7 +109,7 @@ const NewChocolate = () => {
                             </RadioGroup>
                         </FormControl>
                     </Box>
-
+                    {/* button */}
                     <Box bgcolor={"#91572B"} borderRadius={2} color={"white"}>
                         <Button type="submit" variant="" sx={{ paddingY: '17px' }} fullWidth>Save</Button>
                     </Box>

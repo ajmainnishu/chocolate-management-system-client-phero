@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -38,8 +39,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const Home = () => {
+    // fetch all chocolates data
     const loadingChocolates = useLoaderData();
     const [chocolates, setChocolates] = useState(loadingChocolates);
+    // delete single chocolate data from mongodb server
     const handleDelete = _id => {
         fetch(`http://localhost:5000/chocolates/${_id}`, {
             method: 'DELETE'
@@ -52,6 +55,7 @@ const Home = () => {
                         'Data Deleted Successfully',
                         'success'
                     )
+                    // show all chocolated data without user deleted
                     const remaining = chocolates.filter(choco => choco._id !== _id);
                     setChocolates(remaining);
                 }
@@ -59,7 +63,7 @@ const Home = () => {
     }
     return (
         <Container>
-            <Link to={`/new-chocolate`}><Button variant="outlined"> + New Chocolate</Button></Link>
+            <Link to={`/new-chocolate`}><Button variant="outlined"><AddIcon /> &nbsp; New Chocolate</Button></Link>
             <Box marginTop={4} marginBottom={8}>
                 <TableContainer component={Paper}>
                     <Table aria-label="customized table">
@@ -74,6 +78,7 @@ const Home = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            {/* chocolates mapping */}
                             {chocolates.map((chocolate) => (
                                 <StyledTableRow key={chocolate._id}>
                                     <StyledTableCell align='center'>

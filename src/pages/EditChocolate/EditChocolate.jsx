@@ -3,10 +3,16 @@ import { Box, Button, Container, FormControl, FormControlLabel, FormLabel, Input
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2';
+import useTitle from "../../hooks/useTitle";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const EditChocolate = () => {
+    // website dynamic title
+    useTitle('Edit');
+    // single chocolate data fetch
     const chocolate = useLoaderData();
     const { _id, name, country, photo, category, available } = chocolate;
+    // single chocolate data update
     const handleEditChocolate = event => {
         event.preventDefault();
         const form = event.target;
@@ -26,6 +32,7 @@ const EditChocolate = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
+                    // modal
                     Swal.fire(
                         'Updated',
                         'Data Updated Successfully',
@@ -37,7 +44,7 @@ const EditChocolate = () => {
     }
     return (
         <Container>
-            <Link to={`/`}><Button sx={{ marginBottom: '32px' }} variant="outlined">All Chocolates</Button></Link>
+            <Link to={`/`}><Button sx={{ marginBottom: '32px' }} variant="outlined"><ArrowBackIcon /> &nbsp; All Chocolates</Button></Link>
             <hr />
             <Box marginTop={4} marginBottom={8} paddingX={14} paddingY={6} bgcolor={"rgba(20, 20, 20, 0.05)"} borderRadius={2}>
                 <Typography variant="h6" textAlign={"center"} fontWeight={600}>
@@ -47,6 +54,7 @@ const EditChocolate = () => {
                     Use the below form to Edit a new product
                 </Typography>
                 <form onSubmit={handleEditChocolate}>
+                    {/* name field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
@@ -57,6 +65,7 @@ const EditChocolate = () => {
                             fullWidth
                         />
                     </Box>
+                    {/* country field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
@@ -67,7 +76,7 @@ const EditChocolate = () => {
                             fullWidth
                         />
                     </Box>
-
+                    {/* photo url field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <TextField
                             id=""
@@ -78,6 +87,7 @@ const EditChocolate = () => {
                             fullWidth
                         />
                     </Box>
+                    {/* category field */}
                     <Box marginBottom={4} bgcolor={"white"}>
                         <FormControl fullWidth>
                             <InputLabel id="">Category</InputLabel>
@@ -94,7 +104,7 @@ const EditChocolate = () => {
                             </Select>
                         </FormControl>
                     </Box>
-
+                    {/* available field */}
                     <Box marginBottom={4}>
                         <FormControl>
                             <FormLabel id="">Available</FormLabel>
@@ -106,11 +116,10 @@ const EditChocolate = () => {
                             </RadioGroup>
                         </FormControl>
                     </Box>
-
+                    {/* button */}
                     <Box bgcolor={"#91572B"} borderRadius={2} color={"white"}>
                         <Button type="submit" variant="" sx={{ paddingY: '17px' }} fullWidth>Update</Button>
                     </Box>
-
                 </form>
             </Box>
         </Container>
